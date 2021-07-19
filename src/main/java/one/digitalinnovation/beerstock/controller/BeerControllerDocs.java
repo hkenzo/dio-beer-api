@@ -11,6 +11,7 @@ import one.digitalinnovation.beerstock.exception.BeerNotFoundException;
 import one.digitalinnovation.beerstock.exception.BeerStockExceededException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -36,7 +37,7 @@ public interface BeerControllerDocs {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "List of all beers registered in the system"),
     })
-    List<BeerDTO> listBeers();
+    List<BeerDTO> listBeers(@RequestParam(value = "search") String search);
 
     @ApiOperation(value = "Delete a beer found by a given valid Id")
     @ApiResponses(value = {

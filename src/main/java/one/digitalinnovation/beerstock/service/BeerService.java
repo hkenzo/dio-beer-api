@@ -5,6 +5,7 @@ import one.digitalinnovation.beerstock.dto.BeerDTO;
 import one.digitalinnovation.beerstock.entity.Beer;
 import one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
 import one.digitalinnovation.beerstock.exception.BeerNotFoundException;
+import one.digitalinnovation.beerstock.exception.BeerQuantityBadQuery;
 import one.digitalinnovation.beerstock.exception.BeerStockExceededException;
 import one.digitalinnovation.beerstock.mapper.BeerMapper;
 import one.digitalinnovation.beerstock.repository.BeerRepository;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +39,22 @@ public class BeerService {
     }
 
     public List<BeerDTO> listAll() {
+        return beerRepository.findAll()
+                .stream()
+                .map(beerMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<BeerDTO> listAll(String c) {
+        Pattern searchRegexPattern = Pattern.compile("(\w+?)(:|<|>)(\w+?),");
+        Matcher regexMatcher = searchRegexPattern.matcher(search + ",");
+        if (regexMatcher.find( )) {
+            System.out.println("Found value: " + regexMatcher.group(0) );
+            System.out.println("Found value: " + regexMatcher.group(1) );
+            System.out.println("Found value: " + regexMatcher.group(2) );
+        } else {
+            throw BeerQuantityBadQuery(search);
+        }
         return beerRepository.findAll()
                 .stream()
                 .map(beerMapper::toDTO)
